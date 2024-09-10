@@ -11,6 +11,8 @@ mongoose.connect('mongodb+srv://SuryaSingh095:EyXLF2U5udIQKtUG@trueweb3.1u56fq7.
 app.use('/api/users', userRoutes)
 
 
+console.log('Hello world');
+
 //redisServices.setCache('testkey', 'testvalue')
 redisServices.getCache('testkey').then((data) => {
   console.log(data)
