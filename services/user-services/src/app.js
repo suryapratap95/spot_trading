@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 8000
 const mongoose = require('mongoose')
 const userRoutes = require('./routes/userRoutes')
 const redisServices = require('./services/redisServices')
@@ -10,8 +10,6 @@ mongoose.connect('mongodb+srv://SuryaSingh095:EyXLF2U5udIQKtUG@trueweb3.1u56fq7.
 
 app.use('/api/users', userRoutes)
 
-
-console.log('Hello world');
 
 //redisServices.setCache('testkey', 'testvalue')
 redisServices.getCache('testkey').then((data) => {

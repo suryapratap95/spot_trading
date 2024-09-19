@@ -1,6 +1,38 @@
-import Link from 'next/link';
+"use client";
+import Link from "next/link";
+import { useState } from "react";
+import axios from "axios";
 
 export default function SignupPage() {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/users/signup",
+        formData
+      );
+      console.log(response);
+      if (response.status === 200) {
+        alert("Signup successful");
+      } else {
+        alert("Signup failed");
+      }
+    } catch (error) {
+      console.log("Signup failed", error);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -9,21 +41,38 @@ export default function SignupPage() {
             Create your account
           </h2>
         </div>
-        <form className="mt-8 space-y-6" action="#" method="POST">
+        <form className="mt-8 space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
           <input type="hidden" name="remember" value="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="full-name" className="sr-only">
-                Full Name
+              <label htmlFor="first-name" className="sr-only">
+                First Name
               </label>
               <input
-                id="full-name"
-                name="fullName"
+                id="first-name"
+                name="firstName"
                 type="text"
                 autoComplete="name"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Full Name"
+                placeholder="First Name"
+                onChange={handleChange}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="last-name" className="sr-only">
+                Full Name
+              </label>
+              <input
+                id="last-name"
+                name="lastName"
+                type="text"
+                autoComplete="name"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Last Name"
+                onChange={handleChange}
               />
             </div>
             <div>
@@ -38,6 +87,7 @@ export default function SignupPage() {
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
+                onChange={handleChange}
               />
             </div>
             <div>
@@ -52,6 +102,7 @@ export default function SignupPage() {
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
+                onChange={handleChange}
               />
             </div>
             <div>
@@ -66,6 +117,7 @@ export default function SignupPage() {
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Confirm Password"
+                onChange={handleChange}
               />
             </div>
           </div>
@@ -80,7 +132,10 @@ export default function SignupPage() {
           </div>
         </form>
         <div className="text-center">
-          <Link href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+          <Link
+            href="/login"
+            className="font-medium text-indigo-600 hover:text-indigo-500"
+          >
             Already have an account? Sign in
           </Link>
         </div>
